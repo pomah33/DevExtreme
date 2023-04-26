@@ -19,6 +19,7 @@
     "isolatedModules": true,
     "alwaysStrict": true,
     "moduleResolution": "node",
+    "jsx": "react",
     "noImplicitReturns": true,
     "noImplicitThis": false,
     "noPropertyAccessFromIndexSignature": false,
