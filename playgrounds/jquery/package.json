@@ -1,0 +1,18 @@
+{
+  "author": "Developer Express Inc.",
+  "name": "devextreme-jquery-playground",
+  "private": true,
+  "version": "23.2.0",
+  "dependencies": {
+    "devextreme": "~23.2.0",
+    "ts-loader": "^9.4.4",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
+  },
+  "scripts": {
+    "start": "webpack-dev-server",
+    "build": "echo empty"
+  },
+  "license": "MIT"
+}
