@@ -1,7 +1,7 @@
 import $ from '../../core/renderer';
 import DateBox from '../date_box/ui.date_box.mask';
 import RangeCalendarStrategy from './strategy/rangeCalendar';
-import { addNamespace } from '../../events/utils';
+import { addNamespace } from '../../events/utils/index';
 import eventsEngine from '../../events/core/events_engine';
 import { getDeserializedDate, monthDifference } from './ui.date_range.utils';
 
