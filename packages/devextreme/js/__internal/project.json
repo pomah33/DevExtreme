@@ -1,0 +1,12 @@
+{
+  "name": "devextreme-internal",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "cd",
+        "cwd": "{projectRoot}"
+      }
+    }
+  }
+}
