@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+      "strict": false,
+      "jsx": "preserve",
+      "declaration": true,
+      "isolatedModules": true,
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+  ],
+  "exclude": [
+    "**/__test__/**"
+  ]
+}

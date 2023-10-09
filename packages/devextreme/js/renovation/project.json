@@ -1,0 +1,12 @@
+{
+  "name": "devextreme-renovation",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/devextreme/js/renovation",
+        "command": "npx gulp build-renovation-temp -f js/renovation/gulpfile.js"
+      }
+    }
+  }
+}
