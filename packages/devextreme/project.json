@@ -7,7 +7,7 @@
     "build": {
       "executor": "nx:run-script",
       "options": {
-        "script": "build-npm-devextreme"
+        "script": "build:new"
       },
       "inputs": [
         "{projectRoot}/build/**/*",
