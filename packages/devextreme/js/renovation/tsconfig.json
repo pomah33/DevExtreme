@@ -5,6 +5,7 @@
       "declaration": true,
       "isolatedModules": true,
       "module": "ESNext",
+      "target": "ESNext"
   },
   "include": [
     "**/*.ts",
