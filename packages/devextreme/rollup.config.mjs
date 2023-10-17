@@ -39,17 +39,14 @@ const renovationInput = Object.fromEntries(
 );
 
 const input = {
-    // ...renovationInput,
+    ...renovationInput,
     ...jsInput,
 }
-
-const inputByFiles = Object.fromEntries(Object.entries(input).map(([a, b]) => [b, a]));
 
 export default [{
     input,
     external: [
         /__internal/,
-        /renovation/,
     ],
     output: [
         {
@@ -72,14 +69,31 @@ export default [{
         del({ targets: 'dist/*' }),
         {
             name: 'a',
-            resolveId(source, importer, options) {
-                if (options.isEntry) {
+            resolveId(importee, importer, resolveOptions) {                
+                if (resolveOptions.isEntry) {
+                    return null;
+                }
+                
+                const find = 'renovation';
+                const replace = 'renovation/dist';
+
+                let newImportee;
+
+                if (importee.includes(find)) {
+                    newImportee = importee.replace(find, replace);
+                } else if (importer.includes(find)) {
+                    if (!path.join(path.dirname(importer), '..', importee).includes(find)) {
+                        newImportee =  path.join('..', importee);
+                    }
+                }
+
+                if (!newImportee) {
                     return;
                 }
 
-                console.log(source, importer, options);  
-            },
+                return this.resolve(newImportee, importer, {...resolveOptions, skipSelf: true});
+            }
         }
     ],
-    treeshake: false
+    treeshake: false,
 }];

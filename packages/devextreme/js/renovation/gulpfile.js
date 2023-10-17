@@ -5,7 +5,6 @@ const { InfernoGenerator } = require('@devextreme-generator/inferno');
 const { generateComponents } = require('@devextreme-generator/build-helpers');
 const del = require('del');
 const babel = require('gulp-babel');
-const transpileConfig = require('../../build/gulp/transpile-config');
 const ts = require('gulp-typescript');
 
 const SRC = [
@@ -21,21 +20,28 @@ gulp.task('clean', (cb) => {
     cb();
 });
 
+const babelConfig = {
+    plugins: [
+        ['babel-plugin-inferno', { 'imports': true }]
+    ],
+    presets: [],
+};
+
 gulp.task('generate-jquery-components', () => {
     const tsProject = ts.createProject('./tsconfig.json');
 
     const generator = new InfernoGenerator();
     generator.options = {
-        defaultOptionsModule: '../js/core/options/utils',
-        jqueryComponentRegistratorModule: '../js/core/component_registrator',
-        jqueryBaseComponentModule: 'component_wrapper/common/component',
+        defaultOptionsModule: '../core/options/utils',
+        jqueryComponentRegistratorModule: '../core/component_registrator',
+        jqueryBaseComponentModule: './component_wrapper/common/component',
         generateJQueryOnly: true
     };
 
     return gulp.src(SRC)
         .pipe(generateComponents(generator, { excludePathPatterns: ['__internal'], }))
         .pipe(tsProject())
-        .pipe(babel(transpileConfig.esm))
+        .pipe(babel(babelConfig))
         .pipe(gulp.dest('dist/'));
 });
 
@@ -44,9 +50,9 @@ gulp.task('generate-inferno-components', () => {
 
     const generator = new InfernoGenerator();
     generator.options = {
-        defaultOptionsModule: '../js/core/options/utils',
-        jqueryComponentRegistratorModule: '../js/core/component_registrator',
-        jqueryBaseComponentModule: 'component_wrapper/common/component',
+        defaultOptionsModule: '../core/options/utils',
+        jqueryComponentRegistratorModule: '../core/component_registrator',
+        jqueryBaseComponentModule: './component_wrapper/common/component',
     };
 
     // const errors = [];
@@ -54,7 +60,7 @@ gulp.task('generate-inferno-components', () => {
     return gulp.src(SRC)
         .pipe(generateComponents(generator, { excludePathPatterns: ['__internal'], }))
         .pipe(tsProject())
-        .pipe(babel(transpileConfig.esm))
+        .pipe(babel(babelConfig))
         .pipe(gulp.dest('./dist'));
 });
 
