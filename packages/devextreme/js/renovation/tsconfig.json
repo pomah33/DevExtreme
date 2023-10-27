@@ -4,6 +4,7 @@
       "jsx": "preserve",
       "declaration": true,
       "isolatedModules": true,
+      "module": "ESNext",
   },
   "include": [
     "**/*.ts",
