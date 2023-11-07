@@ -5,17 +5,11 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import del from 'rollup-plugin-delete';
 import alias from '@rollup/plugin-alias';
+import ts from '@rollup/plugin-typescript';
 
-const jsInput = Object.fromEntries(
-    glob.sync('js/**/*', {
-        ignore: [
-            'js/**/*.d.ts',
-            'js/renovation/**/*',
-            'js/__internal/**/*',
-            'js/bundles/**/*',
-            'js/localization/**/*',
-            '**/*.json',
-        ],
+function createEntryMapping(inputGlob, ignoreGlobs=[]) {
+    const fileEntries = glob.sync(inputGlob, {
+        ignore: ignoreGlobs,
         nodir: true,
     }).map(file => [
         path.relative(
@@ -23,34 +17,39 @@ const jsInput = Object.fromEntries(
             file.slice(0, file.length - path.extname(file).length)
         ),
         fileURLToPath(new URL(file, import.meta.url))
-    ])
+    ]);
+
+    return Object.fromEntries(fileEntries);
+}
+
+const jsInput = createEntryMapping(
+    'js/**/*',
+    [
+        'js/**/*.d.ts',
+        'js/renovation/**/*',
+        'js/__internal/**/*',
+        'js/bundles/**/*',
+        'js/localization/**/*',
+        '**/*.json',
+    ],
 );
 
-const renovationInput = Object.fromEntries(
-    glob.sync('js/renovation/dist/**/*', {
-        nodir: true,
-    }).map(file => [
-        path.relative(
-            'js',
-            file.slice(0, file.length - path.extname(file).length)
-        ),
-        fileURLToPath(new URL(file, import.meta.url))
-    ])
-);
+const renovationInput = createEntryMapping('js/renovation/dist/**/*');
+const internalInput = createEntryMapping('js/__internal/**/*', [
+    '**/*.test.ts'
+]);
 
 const input = {
     ...renovationInput,
     ...jsInput,
+    ...internalInput,
 }
 
 export default [{
     input,
-    external: [
-        /__internal/,
-    ],
     output: [
         {
-            format: 'es',
+            format: 'esm',
             dir: 'dist/esm',
             preserveModules: true,
         },
@@ -93,7 +92,8 @@ export default [{
 
                 return this.resolve(newImportee, importer, {...resolveOptions, skipSelf: true});
             }
-        }
+        },
+        ts(),
     ],
     treeshake: false,
 }];

@@ -8,24 +8,7 @@
       "executor": "nx:run-script",
       "options": {
         "script": "build:new"
-      },
-      "inputs": [
-        "{projectRoot}/build/**/*",
-        "{projectRoot}/fonts/**/*",
-        "{projectRoot}/icons/**/*",
-        "{projectRoot}/images/**/*",
-        "{projectRoot}/js/**/*",
-        "{projectRoot}/scss/widgets/**/*",
-        "{projectRoot}/testing/**/*",
-        "!{projectRoot}/testing/*.txt",
-        "!{projectRoot}/testing/*.xml",
-        "{projectRoot}/ts/**/*",
-        "{projectRoot}/*.js"
-      ],
-      "outputs": [
-        "{projectRoot}/artifacts/internal-tools",
-        "{projectRoot}/artifacts/npm"
-      ]
+      }
     }
   },
   "tags": [],
