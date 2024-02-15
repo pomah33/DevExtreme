@@ -20,28 +20,43 @@ let DeferredObj = function() {
     this._state = 'pending';
     this._promise = {};
 
-    deferredConfig.forEach(function(config) {
-        const methodName = config.method;
-        this[methodName + 'Callbacks'] = Callbacks();
+    this.resolveCallbacks = Callbacks();
+    this.rejectCallbacks = Callbacks();
+    this.notifyCallbacks = Callbacks();
 
-        this[methodName] = function() {
-            return this[methodName + 'With'](this._promise, arguments);
-        }.bind(this);
+    this.resolve = function() {
+        return this.resolveWith(this._promise, arguments);
+    }.bind(this);
+    this.reject = function() {
+        return this.rejectWith(this._promise, arguments);
+    }.bind(this);
+    this.notify = function() {
+        return this.notifyWith(this._promise, arguments);
+    }.bind(this);
 
-        this._promise[config.handler] = function(handler) {
-            if(!handler) return this;
+    this._promise._handler = function(methodName, handler) {
+        if(!handler) return this;
 
-            const callbacks = that[methodName + 'Callbacks'];
-            if(callbacks.fired()) {
-                handler.apply(that[methodName + 'Context'], that[methodName + 'Args']);
-            } else {
-                callbacks.add(function(context, args) {
-                    handler.apply(context, args);
-                }.bind(this));
-            }
-            return this;
-        };
-    }.bind(this));
+        const callbacks = that[methodName + 'Callbacks'];
+        if(callbacks.fired()) {
+            handler.apply(that[methodName + 'Context'], that[methodName + 'Args']);
+        } else {
+            callbacks.add(function(context, args) {
+                handler.apply(context, args);
+            }.bind(this));
+        }
+        return this;
+    };
+
+    this._promise.done = function(handler) {
+        return this._handler('resolve', handler);
+    };
+    this._promise.fail = function(handler) {
+        return this._handler('reject', handler);
+    };
+    this._promise.progress = function(handler) {
+        return this._handler('notify', handler);
+    };
 
     this._promise.always = function(handler) {
         return this.done(handler).fail(handler);
