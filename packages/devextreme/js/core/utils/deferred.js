@@ -2,19 +2,6 @@ import { isDeferred, isDefined, isPromise } from '../utils/type';
 import { extend } from '../utils/extend';
 import Callbacks from '../utils/callbacks';
 
-const deferredConfig = [{
-    method: 'resolve',
-    handler: 'done',
-    state: 'resolved'
-}, {
-    method: 'reject',
-    handler: 'fail',
-    state: 'rejected'
-}, {
-    method: 'notify',
-    handler: 'progress'
-}];
-
 let DeferredObj = function() {
     const that = this;
     this._state = 'pending';
@@ -103,23 +90,28 @@ let DeferredObj = function() {
     this._promise.promise(this);
 };
 
-deferredConfig.forEach(function(config) {
-    const methodName = config.method;
-    const state = config.state;
+DeferredObj.prototype._methodWith = function(methodName, state, context, args) {
+    const callbacks = this[methodName + 'Callbacks'];
 
-    DeferredObj.prototype[methodName + 'With'] = function(context, args) {
-        const callbacks = this[methodName + 'Callbacks'];
+    if(this.state() === 'pending') {
+        this[methodName + 'Args'] = args;
+        this[methodName + 'Context'] = context;
+        if(state) this._state = state;
+        callbacks.fire(context, args);
+    }
 
-        if(this.state() === 'pending') {
-            this[methodName + 'Args'] = args;
-            this[methodName + 'Context'] = context;
-            if(state) this._state = state;
-            callbacks.fire(context, args);
-        }
+    return this;
+};
 
-        return this;
-    };
-});
+DeferredObj.prototype.resolveWith = function(context, args) {
+    return this._methodWith('resolve', 'resolved', context, args);
+};
+DeferredObj.prototype.rejectWith = function(context, args) {
+    return this._methodWith('reject', 'rejected', context, args);
+};
+DeferredObj.prototype.notifyWith = function(context, args) {
+    return this._methodWith('notify', undefined, context, args);
+};
 
 export function fromPromise(promise, context) {
     if(isDeferred(promise)) {
