@@ -87,7 +87,39 @@ let DeferredObj = function() {
         return args ? extend(args, that._promise) : that._promise;
     };
 
-    this._promise.promise(this);
+    this.done = function(handler) {
+        return this._promise.done.call(this, handler);
+    };
+    this.fail = function(handler) {
+        return this._promise.fail.call(this, handler);
+    };
+    this.progress = function(handler) {
+        return this._promise.progress.call(this, handler);
+    };
+
+    this.always = function(handler) {
+        return this._promise.always.call(this, handler);
+    };
+
+    this.catch = function(handler) {
+        return this._promise.catch.call(this, handler);
+    };
+
+    this.then = function(resolve, reject) {
+        return this._promise.then.call(this, resolve, reject);
+    };
+
+    this.state = function() {
+        return this._promise.state.call(this);
+    };
+
+    this.promise = function(args) {
+        return this._promise.promise.call(this, args);
+    };
+
+    this._handler = function(methodName, handler) {
+        return this._promise._handler.call(this, methodName, handler);
+    };
 };
 
 DeferredObj.prototype._methodWith = function(methodName, state, context, args) {
