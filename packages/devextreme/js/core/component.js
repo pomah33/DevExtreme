@@ -13,6 +13,14 @@ import { isFunction, isPlainObject, isDefined } from './utils/type';
 import { noop } from './utils/common';
 import { getPathParts } from './utils/data';
 
+const allAvailableNotNativeComponents = new Map();
+const allNotNativeComponents = new Map();
+const allBlockedNotNativeComponents = new Map();
+
+window.allAvailableNotNativeComponents = allAvailableNotNativeComponents;
+window.allNotNativeComponents = allNotNativeComponents;
+window.allBlockedNotNativeComponents = allBlockedNotNativeComponents;
+
 const getEventName = (actionName) => {
     return actionName.charAt(2).toLowerCase() + actionName.substr(3);
 };
@@ -386,3 +394,17 @@ export const Component = Class.inherit({
         this.endUpdate();
     }
 });
+
+const inherit = Component.inherit;
+
+Component.inherit = function(members) {
+    allBlockedNotNativeComponents.set(this, allAvailableNotNativeComponents.get(this));
+    allAvailableNotNativeComponents.delete(this);
+
+    const inheritor = inherit.call(this, members);
+
+    allAvailableNotNativeComponents.set(inheritor, members);
+    allNotNativeComponents.set(inheritor, members);
+
+    return inheritor;
+};
