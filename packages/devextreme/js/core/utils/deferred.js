@@ -87,40 +87,40 @@ let DeferredObj = class DeferredObj {
         this._promise.promise = function(args) {
             return args ? extend(args, that._promise) : that._promise;
         };
+    }
 
-        this.done = function(handler) {
-            return this._promise.done.call(this, handler);
-        };
-        this.fail = function(handler) {
-            return this._promise.fail.call(this, handler);
-        };
-        this.progress = function(handler) {
-            return this._promise.progress.call(this, handler);
-        };
+    done(handler) {
+        return this._promise.done.call(this, handler);
+    }
+    fail(handler) {
+        return this._promise.fail.call(this, handler);
+    }
+    progress(handler) {
+        return this._promise.progress.call(this, handler);
+    }
 
-        this.always = function(handler) {
-            return this._promise.always.call(this, handler);
-        };
+    always(handler) {
+        return this._promise.always.call(this, handler);
+    }
 
-        this.catch = function(handler) {
-            return this._promise.catch.call(this, handler);
-        };
+    catch(handler) {
+        return this._promise.catch.call(this, handler);
+    }
 
-        this.then = function(resolve, reject) {
-            return this._promise.then.call(this, resolve, reject);
-        };
+    then(resolve, reject) {
+        return this._promise.then.call(this, resolve, reject);
+    }
 
-        this.state = function() {
-            return this._promise.state.call(this);
-        };
+    state() {
+        return this._promise.state.call(this);
+    }
 
-        this.promise = function(args) {
-            return this._promise.promise.call(this, args);
-        };
+    promise(args) {
+        return this._promise.promise.call(this, args);
+    }
 
-        this._handler = function(methodName, handler) {
-            return this._promise._handler.call(this, methodName, handler);
-        };
+    _handler(methodName, handler) {
+        return this._promise._handler.call(this, methodName, handler);
     }
 
     _methodWith(methodName, state, context, args) {
