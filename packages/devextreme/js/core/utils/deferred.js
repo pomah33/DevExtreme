@@ -3,7 +3,23 @@ import { extend } from '../utils/extend';
 import Callbacks from '../utils/callbacks';
 
 class PromiseDeferred {
+    done(handler) {
+        return this._handler('resolve', handler);
+    }
+    fail(handler) {
+        return this._handler('reject', handler);
+    }
+    progress(handler) {
+        return this._handler('notify', handler);
+    }
 
+    always(handler) {
+        return this.done(handler).fail(handler);
+    }
+
+    catch(handler) {
+        return this.then(null, handler);
+    }
 }
 
 let DeferredObj = class DeferredObj {
@@ -31,24 +47,6 @@ let DeferredObj = class DeferredObj {
                 }.bind(this));
             }
             return this;
-        };
-
-        this._promise.done = function(handler) {
-            return this._handler('resolve', handler);
-        };
-        this._promise.fail = function(handler) {
-            return this._handler('reject', handler);
-        };
-        this._promise.progress = function(handler) {
-            return this._handler('notify', handler);
-        };
-
-        this._promise.always = function(handler) {
-            return this.done(handler).fail(handler);
-        };
-
-        this._promise.catch = function(handler) {
-            return this.then(null, handler);
         };
 
         this._promise.then = function(resolve, reject) {
