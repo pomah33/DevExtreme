@@ -46,6 +46,32 @@ class PromiseDeferred {
     promise(args) {
         return args ? extend(args, this._deferred._promise) : this._deferred._promise;
     }
+
+    then(resolve, reject) {
+        const result = new DeferredObj();
+
+        ['done', 'fail'].forEach(function(method) {
+            const callback = method === 'done' ? resolve : reject;
+
+            this[method](function() {
+                if(!callback) {
+                    result[method === 'done' ? 'resolve' : 'reject'].apply(this, arguments);
+                    return;
+                }
+
+                const callbackResult = callback && callback.apply(this, arguments);
+                if(isDeferred(callbackResult)) {
+                    callbackResult.done(result.resolve).fail(result.reject);
+                } else if(isPromise(callbackResult)) {
+                    callbackResult.then(result.resolve, result.reject);
+                } else {
+                    result.resolve.apply(this, isDefined(callbackResult) ? [callbackResult] : arguments);
+                }
+            });
+        }.bind(this));
+
+        return result.promise();
+    }
 }
 
 let DeferredObj = class DeferredObj {
@@ -62,32 +88,6 @@ let DeferredObj = class DeferredObj {
         this.resolve = this.resolve.bind(this);
         this.reject = this.reject.bind(this);
         this.notify = this.notify.bind(this);
-
-        this._promise.then = function(resolve, reject) {
-            const result = new DeferredObj();
-
-            ['done', 'fail'].forEach(function(method) {
-                const callback = method === 'done' ? resolve : reject;
-
-                this[method](function() {
-                    if(!callback) {
-                        result[method === 'done' ? 'resolve' : 'reject'].apply(this, arguments);
-                        return;
-                    }
-
-                    const callbackResult = callback && callback.apply(this, arguments);
-                    if(isDeferred(callbackResult)) {
-                        callbackResult.done(result.resolve).fail(result.reject);
-                    } else if(isPromise(callbackResult)) {
-                        callbackResult.then(result.resolve, result.reject);
-                    } else {
-                        result.resolve.apply(this, isDefined(callbackResult) ? [callbackResult] : arguments);
-                    }
-                });
-            }.bind(this));
-
-            return result.promise();
-        };
     }
 
     resolve() {
