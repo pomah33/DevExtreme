@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/prefer-optional-chain */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable @typescript-eslint/no-invalid-this */
@@ -15,7 +16,9 @@ import Callbacks from '@js/core/utils/callbacks';
 import { extend } from '@js/core/utils/extend';
 import { isDeferred, isDefined, isPromise } from '@js/core/utils/type';
 
-class PromiseDeferred {
+import { DeferredObj } from './strategy';
+
+export class PromiseDeferred {
   constructor(
     private readonly _deferred: DeferredCls,
   ) {}
@@ -91,7 +94,7 @@ class PromiseDeferred {
   }
 }
 
-class DeferredCls {
+export class DeferredCls {
   _state: 'pending' | 'resolved' | 'rejected';
 
   _deferred: DeferredCls;
@@ -194,8 +197,6 @@ class DeferredCls {
   }
 }
 
-let DeferredObj = DeferredCls;
-
 export function fromPromise(promise, context?) {
   if (isDeferred(promise)) {
     return promise;
@@ -214,7 +215,7 @@ export function fromPromise(promise, context?) {
   return new DeferredObj().resolveWith(context, [promise]);
 }
 
-let whenFunc = function () {
+export const whenImpl = function () {
   if (arguments.length === 1) {
     return fromPromise(arguments[0]);
   }
@@ -251,17 +252,3 @@ let whenFunc = function () {
 
   return deferred.promise();
 };
-
-export function setStrategy(value) {
-  DeferredObj = value.Deferred;
-  whenFunc = value.when;
-}
-
-export function Deferred() {
-  return new DeferredObj();
-}
-
-export function when() {
-  // @ts-expect-error
-  return whenFunc.apply(this, arguments);
-}
