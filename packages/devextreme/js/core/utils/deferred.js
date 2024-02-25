@@ -2,11 +2,15 @@ import { isDeferred, isDefined, isPromise } from '../utils/type';
 import { extend } from '../utils/extend';
 import Callbacks from '../utils/callbacks';
 
+class PromiseDeferred {
+
+}
+
 let DeferredObj = class DeferredObj {
     constructor() {
         const that = this;
         this._state = 'pending';
-        this._promise = {};
+        this._promise = new PromiseDeferred();
 
         this.resolveCallbacks = Callbacks();
         this.rejectCallbacks = Callbacks();
