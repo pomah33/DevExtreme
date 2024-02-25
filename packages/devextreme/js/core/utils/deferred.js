@@ -3,6 +3,10 @@ import { extend } from '../utils/extend';
 import Callbacks from '../utils/callbacks';
 
 class PromiseDeferred {
+    constructor(deferred) {
+        this._deferred = deferred;
+    }
+
     done(handler) {
         return this._handler('resolve', handler);
     }
@@ -20,13 +24,29 @@ class PromiseDeferred {
     catch(handler) {
         return this.then(null, handler);
     }
+
+    _handler(methodName, handler) {
+        if(!handler) return this;
+
+        const callbacks = this._deferred[methodName + 'Callbacks'];
+        if(callbacks.fired()) {
+            handler.apply(this._deferred[methodName + 'Context'], this._deferred[methodName + 'Args']);
+        } else {
+            callbacks.add(function(context, args) {
+                handler.apply(context, args);
+            }.bind(this));
+        }
+        return this;
+    }
 }
 
 let DeferredObj = class DeferredObj {
     constructor() {
         const that = this;
+        // NOTE: we need this because sometimes PromiseDeferred's _handler method is called with Deferred's context
+        this._deferred = this;
         this._state = 'pending';
-        this._promise = new PromiseDeferred();
+        this._promise = new PromiseDeferred(this);
 
         this.resolveCallbacks = Callbacks();
         this.rejectCallbacks = Callbacks();
@@ -34,20 +54,6 @@ let DeferredObj = class DeferredObj {
         this.resolve = this.resolve.bind(this);
         this.reject = this.reject.bind(this);
         this.notify = this.notify.bind(this);
-
-        this._promise._handler = function(methodName, handler) {
-            if(!handler) return this;
-
-            const callbacks = that[methodName + 'Callbacks'];
-            if(callbacks.fired()) {
-                handler.apply(that[methodName + 'Context'], that[methodName + 'Args']);
-            } else {
-                callbacks.add(function(context, args) {
-                    handler.apply(context, args);
-                }.bind(this));
-            }
-            return this;
-        };
 
         this._promise.then = function(resolve, reject) {
             const result = new DeferredObj();
