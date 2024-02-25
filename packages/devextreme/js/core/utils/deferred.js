@@ -38,13 +38,21 @@ class PromiseDeferred {
         }
         return this;
     }
+
+    state() {
+        return this._deferred._state;
+    }
+
+    promise(args) {
+        return args ? extend(args, this._deferred._promise) : this._deferred._promise;
+    }
 }
 
 let DeferredObj = class DeferredObj {
     constructor() {
-        const that = this;
         // NOTE: we need this because sometimes PromiseDeferred's _handler method is called with Deferred's context
         this._deferred = this;
+
         this._state = 'pending';
         this._promise = new PromiseDeferred(this);
 
@@ -79,14 +87,6 @@ let DeferredObj = class DeferredObj {
             }.bind(this));
 
             return result.promise();
-        };
-
-        this._promise.state = function() {
-            return that._state;
-        };
-
-        this._promise.promise = function(args) {
-            return args ? extend(args, that._promise) : that._promise;
         };
     }
 
