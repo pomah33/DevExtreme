@@ -11,16 +11,9 @@ let DeferredObj = class DeferredObj {
         this.resolveCallbacks = Callbacks();
         this.rejectCallbacks = Callbacks();
         this.notifyCallbacks = Callbacks();
-
-        this.resolve = function() {
-            return this.resolveWith(this._promise, arguments);
-        }.bind(this);
-        this.reject = function() {
-            return this.rejectWith(this._promise, arguments);
-        }.bind(this);
-        this.notify = function() {
-            return this.notifyWith(this._promise, arguments);
-        }.bind(this);
+        this.resolve = this.resolve.bind(this);
+        this.reject = this.reject.bind(this);
+        this.notify = this.notify.bind(this);
 
         this._promise._handler = function(methodName, handler) {
             if(!handler) return this;
@@ -87,6 +80,18 @@ let DeferredObj = class DeferredObj {
         this._promise.promise = function(args) {
             return args ? extend(args, that._promise) : that._promise;
         };
+    }
+
+    resolve() {
+        return this.resolveWith(this._promise, arguments);
+    }
+
+    reject() {
+        return this.rejectWith(this._promise, arguments);
+    }
+
+    notify() {
+        return this.notifyWith(this._promise, arguments);
     }
 
     done(handler) {
