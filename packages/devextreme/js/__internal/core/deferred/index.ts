@@ -1,1 +1,2 @@
-export * from './implementation';
+export * from './strategy';
+export * from './utils';
