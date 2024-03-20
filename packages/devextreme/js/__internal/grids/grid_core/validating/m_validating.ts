@@ -5,7 +5,6 @@ import browser from '@js/core/utils/browser';
 // @ts-expect-error
 import { deferUpdate, equalByValue, getKeyHash } from '@js/core/utils/common';
 import type { DeferredObj } from '@js/core/utils/deferred';
-// @ts-expect-error
 import { Deferred, fromPromise, when } from '@js/core/utils/deferred';
 import { extend } from '@js/core/utils/extend';
 import { each } from '@js/core/utils/iterator';
@@ -282,9 +281,7 @@ export class ValidatingController extends modules.Controller {
         const validationResult = ValidationEngine.validateGroup(validationData);
         // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         when(validationResult.complete || validationResult).done((validationResult) => {
-          // @ts-expect-error
           validationData.isValid = validationResult.isValid;
-          // @ts-expect-error
           validationData.brokenRules = validationResult.brokenRules;
         });
       } else if (!validationData.brokenRules || !validationData.brokenRules.length) {

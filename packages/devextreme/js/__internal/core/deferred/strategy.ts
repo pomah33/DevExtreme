@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable prefer-rest-params */
@@ -9,19 +10,23 @@
 /* eslint-disable import/no-mutable-exports */
 import { DeferredCls, whenImpl } from './implementation';
 
-export let DeferredObj = DeferredCls;
-export let whenFunc = whenImpl;
+let DeferredObj = DeferredCls;
+let whenFunc = whenImpl;
+
+export type {
+  DeferredCls as DeferredObj,
+};
 
 export function setStrategy(value: { Deferred: typeof DeferredCls; when: typeof whenImpl }): void {
   DeferredObj = value.Deferred;
   whenFunc = value.when;
 }
 
-export function Deferred(): DeferredCls {
+export function Deferred<T = void, TArgs extends any[] = []>(): DeferredCls<T, TArgs> {
   return new DeferredObj();
 }
 
-export function when() {
+export function when(...args: any[]) {
   // @ts-expect-error
   return whenFunc.apply(this, arguments);
 }

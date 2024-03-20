@@ -6,7 +6,6 @@ import { getPublicElement } from '@js/core/element';
 import errors from '@js/core/errors';
 import $ from '@js/core/renderer';
 import { ensureDefined, noop } from '@js/core/utils/common';
-// @ts-expect-error
 import { Deferred, fromPromise } from '@js/core/utils/deferred';
 import { extend } from '@js/core/utils/extend';
 import { each } from '@js/core/utils/iterator';

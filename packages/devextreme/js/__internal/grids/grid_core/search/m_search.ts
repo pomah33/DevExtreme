@@ -97,7 +97,6 @@ const dataController = (
         lookup = column.lookup;
         const filterValue = parseValue(column, text);
         if (lookup && lookup.items) {
-          // @ts-expect-error
           dataQuery(lookup.items).filter(column.createFilterExpression.call({ dataField: lookup.displayExpr, dataType: lookup.dataType, calculateFilterExpression: column.calculateFilterExpression }, filterValue, null, 'search')).enumerate().done(onQueryDone);
         } else if (filterValue !== undefined) {
           filters.push(column.createFilterExpression(filterValue, null, 'search'));

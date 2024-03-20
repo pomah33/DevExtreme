@@ -1,4 +1,3 @@
-// @ts-expect-error
 import { fromPromise } from '@js/core/utils/deferred';
 import { extend } from '@js/core/utils/extend';
 import { each } from '@js/core/utils/iterator';

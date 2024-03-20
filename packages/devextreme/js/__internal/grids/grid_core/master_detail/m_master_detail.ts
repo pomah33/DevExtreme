@@ -258,10 +258,10 @@ const resizing = (Base: ModuleType<ResizingController>) => class ResizingMasterD
   }
 
   private _updateMasterDataGridCore(masterDataGrid, masterRowOptions) {
-    const d = Deferred();
+    // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+    const d = Deferred<boolean | void>();
 
     if (masterDataGrid.getView('rowsView').isFixedColumns()) {
-      // @ts-expect-error
       this._updateFixedMasterDetailGrids(masterDataGrid, masterRowOptions.rowIndex, $(masterRowOptions.rowElement)).done(d.resolve);
     } else {
       if (masterDataGrid.option('scrolling.useNative') === true) {
@@ -283,7 +283,7 @@ const resizing = (Base: ModuleType<ResizingController>) => class ResizingMasterD
   }
 
   private _updateFixedMasterDetailGrids(masterDataGrid, masterRowIndex, $detailElement) {
-    const d = Deferred();
+    const d = Deferred<boolean>();
     const $rows = $(masterDataGrid.getRowElement(masterRowIndex));
     const $tables = $(masterDataGrid.getView('rowsView').getTableElements());
     const rowsNotEqual = $rows?.length === 2 && getHeight($rows.eq(0)) !== getHeight($rows.eq(1));

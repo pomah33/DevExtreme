@@ -9,7 +9,6 @@ import { noop } from '@js/core/utils/common';
 import { compileGetter } from '@js/core/utils/data';
 import dateUtils from '@js/core/utils/date';
 import dateSerialization from '@js/core/utils/date_serialization';
-// @ts-expect-error
 import { Deferred, fromPromise, when } from '@js/core/utils/deferred';
 import { extend } from '@js/core/utils/extend';
 import { each } from '@js/core/utils/iterator';

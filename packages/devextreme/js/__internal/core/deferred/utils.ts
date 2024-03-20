@@ -7,13 +7,13 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { isDeferred, isPromise } from '@js/core/utils/type';
 
-import { DeferredObj } from './strategy';
+import { Deferred } from './strategy';
 
 export function fromPromise(promise, context?) {
   if (isDeferred(promise)) {
     return promise;
   } if (isPromise(promise)) {
-    const d = new DeferredObj();
+    const d = Deferred();
     promise.then(function () {
       // @ts-expect-error
       d.resolveWith.apply(d, [context].concat([[].slice.call(arguments)]));
@@ -24,5 +24,5 @@ export function fromPromise(promise, context?) {
     return d;
   }
 
-  return new DeferredObj().resolveWith(context, [promise]);
+  return Deferred().resolveWith(context, [promise]);
 }

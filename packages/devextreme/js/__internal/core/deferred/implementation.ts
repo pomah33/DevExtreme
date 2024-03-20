@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/prefer-optional-chain */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable @typescript-eslint/no-invalid-this */
@@ -17,9 +19,9 @@ import { isDeferred, isDefined, isPromise } from '@js/core/utils/type';
 
 import { fromPromise } from './utils';
 
-export class PromiseDeferred {
+export class PromiseDeferred<T, TArgs extends any[]> {
   constructor(
-    private readonly _deferred: DeferredCls,
+    private readonly _deferred: DeferredCls<T, TArgs>,
   ) {}
 
   done(handler) {
@@ -93,18 +95,18 @@ export class PromiseDeferred {
   }
 }
 
-export class DeferredCls {
+export class DeferredCls<T, TArgs extends any[] = []> {
   _state: 'pending' | 'resolved' | 'rejected';
 
-  _deferred: DeferredCls;
+  _deferred: DeferredCls<T, TArgs>;
 
-  _promise: PromiseDeferred;
+  _promise: PromiseDeferred<T, TArgs>;
 
-  resolveCallbacks: Callback;
+  resolveCallbacks: Callback<[T, ...TArgs]>;
 
-  rejectCallbacks: Callback;
+  rejectCallbacks: Callback<[T, ...TArgs]>;
 
-  notifyCallbacks: Callback;
+  notifyCallbacks: Callback<[T, ...TArgs]>;
 
   constructor() {
     // NOTE: we need this because
@@ -117,52 +119,58 @@ export class DeferredCls {
     this.resolveCallbacks = Callbacks();
     this.rejectCallbacks = Callbacks();
     this.notifyCallbacks = Callbacks();
+    // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
+    // @ts-ignore
     this.resolve = this.resolve.bind(this);
+    // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
+    // @ts-ignore
     this.reject = this.reject.bind(this);
+    // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
+    // @ts-ignore
     this.notify = this.notify.bind(this);
   }
 
-  resolve() {
+  resolve(arg: T, ...args: TArgs) {
     return this.resolveWith(this._promise, arguments);
   }
 
-  reject() {
+  reject(arg: T, ...args: TArgs) {
     return this.rejectWith(this._promise, arguments);
   }
 
-  notify() {
+  notify(arg: T, ...args: TArgs) {
     return this.notifyWith(this._promise, arguments);
   }
 
-  done(handler) {
-    return this._promise.done.call(this, handler);
+  done(handler: (arg: T, ...args: TArgs) => void): this {
+    return this._promise.done.call(this, handler) as any;
   }
 
-  fail(handler) {
-    return this._promise.fail.call(this, handler);
+  fail(handler: (arg: T, ...args: TArgs) => void): this {
+    return this._promise.fail.call(this, handler) as any;
   }
 
-  progress(handler) {
-    return this._promise.progress.call(this, handler);
+  progress(handler: (arg: T, ...args: TArgs) => void): this {
+    return this._promise.progress.call(this, handler) as any;
   }
 
-  always(handler) {
+  always(handler: (arg: T, ...args: TArgs) => void) {
     return this._promise.always.call(this, handler);
   }
 
-  catch(handler) {
+  catch(handler: (arg: T, ...args: TArgs) => void) {
     return this._promise.catch.call(this, handler);
   }
 
-  then(resolve, reject) {
+  then(resolve: (arg: T, ...args: TArgs) => void, reject: (arg: T, ...args: TArgs) => void) {
     return this._promise.then.call(this, resolve, reject);
   }
 
-  state() {
+  state(): 'pending' | 'resolved' | 'rejected' {
     return this._promise.state.call(this);
   }
 
-  promise(args?) {
+  promise(args?): PromiseDeferred<T, TArgs> {
     return this._promise.promise.call(this, args);
   }
 

@@ -1,4 +1,3 @@
-import type { DxPromise } from '@js/core/utils/deferred';
 import type { Appointment } from '@js/ui/scheduler';
 
 export type Direction = 'vertical' | 'horizontal';
@@ -25,10 +24,6 @@ export interface IFieldExpr {
 
 export interface BaseTemplateProps {
   index: number;
-}
-
-export interface DataSourcePromise extends DxPromise {
-  done: (items: unknown) => void;
 }
 
 export interface AppointmentDataItem {

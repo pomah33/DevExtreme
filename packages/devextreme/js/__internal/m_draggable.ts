@@ -9,7 +9,6 @@ import $ from '@js/core/renderer';
 import { EmptyTemplate } from '@js/core/templates/empty_template';
 // @ts-expect-error
 import { noop, splitPair } from '@js/core/utils/common';
-// @ts-expect-error
 import { Deferred, fromPromise, when } from '@js/core/utils/deferred';
 import { extend } from '@js/core/utils/extend';
 import { dasherize } from '@js/core/utils/inflector';

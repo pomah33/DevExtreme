@@ -530,7 +530,6 @@ export default class DataSourceAdapter extends modules.Controller {
             options.data = this._cachedStoreData = this._cachedStoreData.concat(options.data);
           }
         }
-        // @ts-expect-error
         new ArrayStore(options.data).load(loadOptions).done((data) => {
           options.data = data;
           if (needStoreCache) {

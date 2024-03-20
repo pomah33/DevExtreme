@@ -7,7 +7,6 @@ import type { dxElementWrapper } from '@js/core/renderer';
 import $ from '@js/core/renderer';
 import { equalByValue } from '@js/core/utils/common';
 import type { DeferredObj } from '@js/core/utils/deferred';
-// @ts-expect-error
 import { Deferred, fromPromise, when } from '@js/core/utils/deferred';
 import { resetActiveElement } from '@js/core/utils/dom';
 import { extend } from '@js/core/utils/extend';
