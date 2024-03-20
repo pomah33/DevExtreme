@@ -1,4 +1,3 @@
-/* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/prefer-optional-chain */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable @typescript-eslint/no-invalid-this */
@@ -16,7 +15,7 @@ import Callbacks from '@js/core/utils/callbacks';
 import { extend } from '@js/core/utils/extend';
 import { isDeferred, isDefined, isPromise } from '@js/core/utils/type';
 
-import { DeferredObj } from './strategy';
+import { fromPromise } from './utils';
 
 export class PromiseDeferred {
   constructor(
@@ -66,7 +65,7 @@ export class PromiseDeferred {
   }
 
   then(resolve, reject) {
-    const result = new DeferredObj();
+    const result = new DeferredCls();
 
     ['done', 'fail'].forEach((method) => {
       const callback = method === 'done' ? resolve : reject;
@@ -197,24 +196,6 @@ export class DeferredCls {
   }
 }
 
-export function fromPromise(promise, context?) {
-  if (isDeferred(promise)) {
-    return promise;
-  } if (isPromise(promise)) {
-    const d = new DeferredObj();
-    promise.then(function () {
-      // @ts-expect-error
-      d.resolveWith.apply(d, [context].concat([[].slice.call(arguments)]));
-    }, function () {
-      // @ts-expect-error
-      d.rejectWith.apply(d, [context].concat([[].slice.call(arguments)]));
-    });
-    return d;
-  }
-
-  return new DeferredObj().resolveWith(context, [promise]);
-}
-
 export const whenImpl = function () {
   if (arguments.length === 1) {
     return fromPromise(arguments[0]);
@@ -223,7 +204,7 @@ export const whenImpl = function () {
   const values: any[] = [].slice.call(arguments);
   const contexts: any[] = [];
   let resolvedCount = 0;
-  const deferred = new DeferredObj();
+  const deferred = new DeferredCls();
 
   const updateState = function (i) {
     return function (value) {
