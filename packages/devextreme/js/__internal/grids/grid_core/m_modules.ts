@@ -7,7 +7,6 @@ import $ from '@js/core/renderer';
 import Callbacks from '@js/core/utils/callbacks';
 // @ts-expect-error
 import { grep } from '@js/core/utils/common';
-import { each } from '@js/core/utils/iterator';
 import { isFunction } from '@js/core/utils/type';
 import { hasWindow } from '@js/core/utils/window';
 import messageLocalization from '@js/localization/message';
@@ -39,14 +38,14 @@ export class ModuleItem {
     that._actions = {};
     that._actionConfigs = {};
 
-    each(this.callbackNames() || [], function (index, name) {
+    (this.callbackNames() || []).forEach((name) => {
       const flags = that.callbackFlags(name) || {};
 
       flags.unique = true;
       flags.syncStrategy = true;
 
       // @ts-expect-error
-      that[this] = Callbacks(flags);
+      that[name] = Callbacks(flags);
     });
   }
 
@@ -194,8 +193,8 @@ export class ModuleItem {
 
   public dispose() {
     const that = this;
-    each(that.callbackNames() || [], function () {
-      that[this].empty();
+    (that.callbackNames() || []).forEach((name) => {
+      that[name].empty();
     });
   }
 
@@ -392,7 +391,7 @@ function getExtendedTypes(
 function registerPublicMethods(componentInstance, name: string, moduleItem): void {
   const publicMethods = moduleItem.publicMethods();
   if (publicMethods) {
-    each(publicMethods, (_, methodName) => {
+    publicMethods.forEach((methodName) => {
       if (moduleItem[methodName]) {
         if (!componentInstance[methodName]) {
           componentInstance[methodName] = (...args: unknown[]): unknown => moduleItem[methodName](...args);
@@ -419,7 +418,7 @@ export function processModules(
   ): unknown {
     const moduleItems = {};
 
-    each(moduleTypes, (name, moduleType) => {
+    Object.entries(moduleTypes).forEach(([name, moduleType]) => {
       // eslint-disable-next-line new-cap
       const moduleItem = new moduleType(componentInstance);
       moduleItem.name = name;
@@ -495,13 +494,13 @@ export function processModules(
 const callModuleItemsMethod = function (that, methodName, args?) {
   args = args || [];
   if (that._controllers) {
-    each(that._controllers, function () {
-      this[methodName] && this[methodName].apply(this, args);
+    Object.values(that._controllers).forEach((controller: any) => {
+      controller[methodName] && controller[methodName].apply(controller, args);
     });
   }
   if (that._views) {
-    each(that._views, function () {
-      this[methodName] && this[methodName].apply(this, args);
+    Object.values(that._views).forEach((view: any) => {
+      view[methodName] && view[methodName].apply(view, args);
     });
   }
 };
