@@ -50,3 +50,4 @@ jobs:
         devextreme-demos
         devextreme-react-playground
         devextreme-vue-playground
+        devextreme-qunit-tests
