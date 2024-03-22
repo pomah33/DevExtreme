@@ -5,6 +5,7 @@
     "devextreme-main": "*",
     "devextreme-qunit-runner": "*"
   },
+  "version": "24.1.1",
   "scripts": {
     "start": "node ./launch",
     "build": "echo empty"
