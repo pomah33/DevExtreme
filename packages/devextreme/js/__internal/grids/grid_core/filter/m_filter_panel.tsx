@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable max-classes-per-file */
+/** @jsx jquery */
 import type { dxElementWrapper } from '@js/core/renderer';
 import $ from '@js/core/renderer';
 import { Deferred, when } from '@js/core/utils/deferred';
@@ -7,6 +9,7 @@ import { isDefined } from '@js/core/utils/type';
 import eventsEngine from '@js/events/core/events_engine';
 import messageLocalization from '@js/localization/message';
 import CheckBox from '@js/ui/check_box';
+import { jquery } from '@ts/core/jsx/jquery';
 import {
   getCaptionByOperation, getCurrentLookupValueText, getCurrentValueText,
   getCustomOperation, getField, getGroupValue, isCondition, isGroup,
@@ -110,7 +113,7 @@ export class FilterPanelView extends modules.View {
 
   private _getFilterElement() {
     const that = this;
-    const $element = $('<div>').addClass('dx-icon-filter');
+    const $element = <div className='dx-icon-filter'></div>;
 
     eventsEngine.on($element, 'click', () => that._showFilterBuilder());
 
