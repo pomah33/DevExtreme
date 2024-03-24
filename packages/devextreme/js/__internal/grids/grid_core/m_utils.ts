@@ -4,7 +4,7 @@ import $ from '@js/core/renderer';
 import { equalByValue } from '@js/core/utils/common';
 // @ts-expect-error
 import { toComparable } from '@js/core/utils/data';
-import { Deferred, when } from '@js/core/utils/deferred';
+import { when } from '@js/core/utils/deferred';
 import { extend } from '@js/core/utils/extend';
 import { each } from '@js/core/utils/iterator';
 import { getBoundingRect } from '@js/core/utils/position';
@@ -619,12 +619,10 @@ export default {
       return items.slice(start, end);
     };
 
-    const loadUniqueRelevantItems = (loadOptions) => {
+    const loadUniqueRelevantItems = async (loadOptions) => {
       const group = normalizeGroupingLoadOptions(
         hasLookupOptimization ? [column.dataField, column.displayField] : column.dataField,
       );
-      // @ts-expect-error
-      const d = new Deferred();
 
       const canUseCache = cachedUniqueRelevantItems && (
         !hasGroupPaging
@@ -632,68 +630,53 @@ export default {
       );
 
       if (canUseCache) {
-        d.resolve(sliceItems(cachedUniqueRelevantItems, loadOptions));
-      } else {
-        previousSkip = loadOptions.skip;
-        previousTake = loadOptions.take;
-        dataSource.load({
-          filter,
-          group,
-          take: hasGroupPaging ? loadOptions.take : undefined,
-          skip: hasGroupPaging ? loadOptions.skip : undefined,
-        }).done((items) => {
-          cachedUniqueRelevantItems = items;
-          d.resolve(hasGroupPaging ? items : sliceItems(items, loadOptions));
-        }).fail(d.fail);
+        return sliceItems(cachedUniqueRelevantItems, loadOptions);
       }
+      previousSkip = loadOptions.skip;
+      previousTake = loadOptions.take;
 
-      return d;
+      const items = await dataSource.load({
+        filter,
+        group,
+        take: hasGroupPaging ? loadOptions.take : undefined,
+        skip: hasGroupPaging ? loadOptions.skip : undefined,
+      });
+      cachedUniqueRelevantItems = items;
+      return hasGroupPaging ? items : sliceItems(items, loadOptions);
     };
 
     const lookupDataSource = {
       ...lookupDataSourceOptions,
       __dataGridSourceFilter: filter,
-      load: (loadOptions) => {
-        // @ts-expect-error
-        const d = new Deferred();
-        loadUniqueRelevantItems(loadOptions).done((items) => {
-          if (items.length === 0) {
-            d.resolve([]);
-            return;
-          }
+      load: async (loadOptions) => {
+        const items = await loadUniqueRelevantItems(loadOptions);
+        if (items.length === 0) {
+          return [];
+        }
 
-          const filter = this.combineFilters(
-            items.flatMap((data) => data.key).map((key) => [
-              column.lookup.valueExpr, key,
-            ]),
-            'or',
-          );
+        const filter = this.combineFilters(
+          items.flatMap((data) => data.key).map((key) => [
+            column.lookup.valueExpr, key,
+          ]),
+          'or',
+        );
 
-          const newDataSource = new DataSource({
-            ...lookupDataSourceOptions,
-            ...loadOptions,
-            filter: this.combineFilters([filter, loadOptions.filter], 'and'),
-            paginate: false, // pagination is included to filter
-          });
-
-          newDataSource
-          // @ts-expect-error
-            .load()
-            .done(d.resolve)
-            .fail(d.fail);
-        }).fail(d.fail);
-        return d;
-      },
-      key: column.lookup.valueExpr,
-      byKey(key) {
-        const d = Deferred();
-        this.load({
-          filter: [column.lookup.valueExpr, '=', key],
-        }).done((arr) => {
-          d.resolve(arr[0]);
+        const newDataSource = new DataSource({
+          ...lookupDataSourceOptions,
+          ...loadOptions,
+          filter: this.combineFilters([filter, loadOptions.filter], 'and'),
+          paginate: false, // pagination is included to filter
         });
 
-        return d.promise();
+        // @ts-expect-error
+        return newDataSource.load();
+      },
+      key: column.lookup.valueExpr,
+      async byKey(key) {
+        const arr = await this.load({
+          filter: [column.lookup.valueExpr, '=', key],
+        });
+        return arr[0];
       },
     };
 
