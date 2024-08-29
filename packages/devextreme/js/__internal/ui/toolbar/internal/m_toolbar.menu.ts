@@ -145,6 +145,7 @@ export default class DropDownMenu extends Widget<Properties> {
   }
 
   _initTemplates() {
+    // @ts-expect-error
     this._templateManager.addDefaultTemplates({
       content: new ChildDefaultTemplate('content'),
     });

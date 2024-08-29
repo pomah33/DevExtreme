@@ -183,6 +183,7 @@ export class ComponentWrapper extends DOMComponent<ComponentWrapperProps> {
     // @ts-expect-error badly typed base class
     super._initializeComponent();
 
+    // @ts-expect-error
     this._templateManager?.addDefaultTemplates(this.getDefaultTemplates());
     const optionProxy = this._getUnwrappedOption();
 
@@ -487,6 +488,7 @@ export class ComponentWrapper extends DOMComponent<ComponentWrapperProps> {
     if (this.option('_hasAnonymousTemplateContent')) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return renderer.createElement(TemplateWrapper, {
+        // @ts-expect-error
         template: this._getTemplate(this._templateManager.anonymousTemplateName),
         transclude: true,
         renovated: true,

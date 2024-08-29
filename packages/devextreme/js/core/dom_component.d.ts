@@ -14,7 +14,6 @@ import {
     InitializedEventInfo,
 } from '../events/index';
 
-import { TemplateManager } from './template_manager';
 import { FunctionTemplate } from './templates/function_template';
 import { DefaultOptionsRule } from './options';
 
@@ -87,10 +86,6 @@ export interface DOMComponentOptions<TComponent> extends ComponentOptions<
  * @hidden
  */
 export default class DOMComponent<TProperties = Properties> extends Component<TProperties> {
-    _templateManager: TemplateManager;
-
-    _cancelOptionChange?: string;
-
     constructor(element: UserDefinedElement, options?: TProperties);
 
     /**

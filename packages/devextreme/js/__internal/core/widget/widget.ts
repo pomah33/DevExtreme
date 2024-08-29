@@ -25,6 +25,8 @@ import {
   active, focus, hover, keyboard,
 } from '@js/events/short';
 import { focusable as focusableSelector } from '@js/ui/widget/selectors';
+import type WidgetPublic from '@js/ui/widget/ui.widget';
+import type { WidgetOptions } from '@js/ui/widget/ui.widget';
 
 import DOMComponent from './dom_component';
 
@@ -35,7 +37,7 @@ function setAttribute(name, value, target) {
   target.attr(name, value);
 }
 
-class Widget extends DOMComponent {
+class Widget<TProperties extends WidgetOptions<unknown>> extends DOMComponent<TProperties> implements WidgetPublic<TProperties> {
   private readonly _feedbackHideTimeout = 400;
 
   private readonly _feedbackShowTimeout = 30;

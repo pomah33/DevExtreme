@@ -260,6 +260,7 @@ class DateRangeBox extends Editor<Properties> {
   }
 
   _initTemplates() {
+    // @ts-expect-error
     this._templateManager.addDefaultTemplates({
       // @ts-expect-error
       dropDownButton: new FunctionTemplate((options) => {

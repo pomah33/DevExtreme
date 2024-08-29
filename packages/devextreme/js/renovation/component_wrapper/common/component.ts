@@ -46,6 +46,9 @@ export interface ComponentWrapperProps extends Record<string, unknown> {
 export default class ComponentWrapper extends DOMComponent<ComponentWrapperProps> {
   static IS_RENOVATED_WIDGET = false;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  declare _templateManager: any;
+
   // NOTE: We should declare all instance options with '!' because of DOMComponent life cycle
   declare _actionsMap: {
     [name: string]: Function;

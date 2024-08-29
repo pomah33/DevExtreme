@@ -17,6 +17,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import Action from '@js/core/action';
 import Class from '@js/core/class';
+import type { Component as ComponentPublic } from '@js/core/component';
 import Config from '@js/core/config';
 import errors from '@js/core/errors';
 import { EventsStrategy } from '@js/core/events_strategy';
@@ -34,7 +35,7 @@ const getEventName = (actionName) => actionName.charAt(2).toLowerCase() + action
 
 const isInnerOption = (optionName) => optionName.indexOf('_', 0) === 0;
 
-export class Component extends Class.inherit({}) {
+export class Component<TProperties> extends Class.inherit({}) implements ComponentPublic<TProperties> {
   _deprecatedOptions: any;
 
   _options: any;
@@ -387,12 +388,12 @@ export class Component extends Class.inherit({}) {
     return onActionCreated(this, result, config) || result;
   }
 
-  on(eventName, eventHandler) {
+  on(eventName, eventHandler?) {
     this._eventsStrategy.on(eventName, eventHandler);
     return this;
   }
 
-  off(eventName, eventHandler) {
+  off(eventName, eventHandler?) {
     this._eventsStrategy.off(eventName, eventHandler);
     return this;
   }

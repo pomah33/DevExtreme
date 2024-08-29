@@ -13,6 +13,8 @@
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 import config from '@js/core/config';
+import type DOMComponentPublic from '@js/core/dom_component';
+import type { DOMComponentOptions } from '@js/core/dom_component';
 import { getPublicElement } from '@js/core/element';
 import { cleanDataRecursive } from '@js/core/element_data';
 import errors from '@js/core/errors';
@@ -32,7 +34,7 @@ import license, { peekValidationPerformed } from '@ts/core/license/license_valid
 
 import { Component } from './component';
 
-class DOMComponent extends Component {
+class DOMComponent<TProperties extends DOMComponentOptions<unknown>> extends Component<TProperties> implements DOMComponentPublic<TProperties> {
   static _classCustomRules: any;
 
   private _customClass: any;
@@ -446,7 +448,7 @@ class DOMComponent extends Component {
     return this._$element;
   }
 
-  element() {
+  element(): HTMLElement {
     const $element = this.$element();
 
     return getPublicElement($element);

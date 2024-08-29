@@ -114,6 +114,7 @@ class ToolbarBase extends AsyncCollectionWidget<Properties> {
       });
     }, ['text', 'html', 'widget', 'options'], this.option('integrationOptions.watchMethod'));
 
+    // @ts-expect-error
     this._templateManager.addDefaultTemplates({
       item: template,
       menuItem: template,

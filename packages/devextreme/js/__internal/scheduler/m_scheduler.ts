@@ -1096,6 +1096,7 @@ class Scheduler extends Widget<any> {
   _initTemplates() {
     this._initAppointmentTemplate();
 
+    // @ts-expect-error
     this._templateManager.addDefaultTemplates({
       appointmentTooltip: new EmptyTemplate(),
       dropDownAppointment: new EmptyTemplate(),
@@ -1116,6 +1117,7 @@ class Scheduler extends Widget<any> {
       return value;
     };
 
+    // @ts-expect-error
     this._templateManager.addDefaultTemplates({
       item: new BindableTemplate(
         ($container, data, model) => this.getAppointmentsInstance()._renderAppointmentTemplate($container, data, model),
@@ -1408,6 +1410,7 @@ class Scheduler extends Widget<any> {
       createComponent: that._createComponent.bind(that),
       container: that.$element(),
       getScrollableContainer: that.getWorkSpaceScrollableContainer.bind(that),
+      // @ts-expect-error
       addDefaultTemplates: that._templateManager.addDefaultTemplates.bind(that._templateManager),
       getAppointmentTemplate: that._getAppointmentTemplate.bind(that),
       showAppointmentPopup: that.showAppointmentPopup.bind(that),
