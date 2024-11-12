@@ -42,3 +42,17 @@ test('dateNavigator buttons should have "contained" styling mode with generic th
   views: ['day'],
   height: 580,
 }));
+
+test('addButton works', async (t) => {
+  const scheduler = new Scheduler('#container');
+
+  await t.click(scheduler.toolbar.addButton.element);
+
+  await t
+    .expect(scheduler.appointmentPopup.isVisible)
+    .ok();
+}).before(async () => createWidget('dxScheduler', {
+  currentView: 'day',
+  views: ['day'],
+  height: 580,
+}));
