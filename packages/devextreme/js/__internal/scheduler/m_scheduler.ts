@@ -379,6 +379,10 @@ class Scheduler extends Widget<any> {
         },
         {
           location: 'after',
+          defaultElement: 'addAppointment',
+        },
+        {
+          location: 'after',
           defaultElement: 'viewSwitcher',
         },
       ],
@@ -1575,6 +1579,9 @@ class Scheduler extends Widget<any> {
     };
     result.onCurrentDateChange = (date) => {
       this.option('currentDate', date);
+    };
+    result.onAddAppointment = () => {
+      this.showAppointmentPopup({}, true);
     };
     result.items = this.option('toolbar');
     result.startViewDate = this.getStartViewDate();

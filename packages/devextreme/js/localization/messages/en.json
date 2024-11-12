@@ -314,6 +314,8 @@
         "dxScheduler-confirmRecurrenceEditOccurrence": "Edit appointment",
         "dxScheduler-confirmRecurrenceDeleteOccurrence": "Delete appointment",
 
+        "dxScheduler-addAppointment": "Add new appointment",
+
         "dxScheduler-noTimezoneTitle": "No timezone",
         "dxScheduler-moreAppointments": "{0} more",
 

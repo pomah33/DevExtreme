@@ -12,6 +12,7 @@ import Toolbar from '@js/ui/toolbar';
 import Widget from '@js/ui/widget/ui.widget';
 import { viewsUtils } from '@ts/scheduler/r1/utils/index';
 
+import { getAddAppointmentButton } from './add_appointment_button';
 import SchedulerCalendar from './m_calendar';
 import {
   getDateNavigator,
@@ -33,6 +34,7 @@ import {
 const DEFAULT_ELEMENT = 'defaultElement';
 const VIEW_SWITCHER = 'viewSwitcher';
 const DATE_NAVIGATOR = 'dateNavigator';
+const ADD_APPOINTMENT = 'addAppointment';
 
 const COMPONENT_CLASS = 'dx-scheduler-header';
 
@@ -173,6 +175,11 @@ export class SchedulerHeader extends Widget<dxSchedulerOptions> {
           this._renderCalendar();
 
           return getDateNavigator(this, item);
+        case ADD_APPOINTMENT:
+          return getAddAppointmentButton({
+            onClick: this.onAddAppointment.bind(this),
+            defaultProps: item,
+          });
         default:
           errors.log(`Unknown default element type: ${defaultElementType}`);
           break;
@@ -180,6 +187,11 @@ export class SchedulerHeader extends Widget<dxSchedulerOptions> {
     }
 
     return item;
+  }
+
+  onAddAppointment() {
+    const onAddAppointment = this.option('onAddAppointment') as any;
+    onAddAppointment?.();
   }
 
   _callEvent(event, arg) {
