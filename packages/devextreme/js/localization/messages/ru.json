@@ -250,6 +250,7 @@
         "dxPivotGrid-filterFieldArea": "Перетащите поля фильтров cюда",
 
         "dxScheduler-ariaLabel": "Scheduler. {0} view",
+        
 
         "dxScheduler-appointmentAriaLabel-group": "Group: {0}",
         "dxScheduler-appointmentAriaLabel-recurring": "Recurring appointment",
@@ -312,6 +313,8 @@
         "dxScheduler-confirmRecurrenceDeleteSeries": "Всю серию",
         "dxScheduler-confirmRecurrenceEditOccurrence": "Только это событие",
         "dxScheduler-confirmRecurrenceDeleteOccurrence": "Только это событие",
+
+        "dxScheduler-addAppointment": "Add new appointment",
 
         "dxScheduler-noTimezoneTitle": "Часовой пояс не выбран",
         "dxScheduler-moreAppointments": "и еще {0}",

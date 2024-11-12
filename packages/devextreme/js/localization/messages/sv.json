@@ -250,6 +250,7 @@
         "dxPivotGrid-filterFieldArea": "Släpp filterfält här",
 
         "dxScheduler-ariaLabel": "Scheduler. {0} view",
+        
 
         "dxScheduler-appointmentAriaLabel-group": "Group: {0}",
         "dxScheduler-appointmentAriaLabel-recurring": "Recurring appointment",
@@ -312,6 +313,8 @@
         "dxScheduler-confirmRecurrenceDeleteSeries": "Radera serien",
         "dxScheduler-confirmRecurrenceEditOccurrence": "Redigera avtalad tid",
         "dxScheduler-confirmRecurrenceDeleteOccurrence": "Radera avtalad tid",
+
+        "dxScheduler-addAppointment": "Add new appointment",
 
         "dxScheduler-noTimezoneTitle": "Ingen tidszon",
         "dxScheduler-moreAppointments": "{0} mer",

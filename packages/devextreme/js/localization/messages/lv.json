@@ -250,6 +250,7 @@
         "dxPivotGrid-filterFieldArea": "Nomest Filtra Laukus Šeit",
 
         "dxScheduler-ariaLabel": "Scheduler. {0} view",
+        
 
         "dxScheduler-appointmentAriaLabel-group": "Group: {0}",
         "dxScheduler-appointmentAriaLabel-recurring": "Recurring appointment",
@@ -312,6 +313,8 @@
         "dxScheduler-confirmRecurrenceDeleteSeries": "Dzēst secību",
         "dxScheduler-confirmRecurrenceEditOccurrence": "Rediģēt apmeklējumu",
         "dxScheduler-confirmRecurrenceDeleteOccurrence": "Dzēst apmeklējumu",
+
+        "dxScheduler-addAppointment": "Add new appointment",
 
         "dxScheduler-noTimezoneTitle": "Nav laika josla",
         "dxScheduler-moreAppointments": "{0} vairāk",

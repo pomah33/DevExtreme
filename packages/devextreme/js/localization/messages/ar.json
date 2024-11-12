@@ -250,6 +250,7 @@
         "dxPivotGrid-filterFieldArea": "إفلات حقول التصفية هنا",
 
         "dxScheduler-ariaLabel": "Scheduler. {0} view",
+        
 
         "dxScheduler-appointmentAriaLabel-group": "Group: {0}",
         "dxScheduler-appointmentAriaLabel-recurring": "Recurring appointment",
@@ -312,6 +313,8 @@
         "dxScheduler-confirmRecurrenceDeleteSeries": "حذف السلسلة",
         "dxScheduler-confirmRecurrenceEditOccurrence": "تحرير الموعد",
         "dxScheduler-confirmRecurrenceDeleteOccurrence": "حذف الموعد",
+
+        "dxScheduler-addAppointment": "Add new appointment",
 
         "dxScheduler-noTimezoneTitle": "بلا منطقة زمنية",
         "dxScheduler-moreAppointments": "{0} المزيد",

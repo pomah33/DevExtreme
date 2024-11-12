@@ -250,6 +250,7 @@
         "dxPivotGrid-filterFieldArea": "Plasați câmpurile de filtrare aici",
 
         "dxScheduler-ariaLabel": "Scheduler. {0} view",
+        
 
         "dxScheduler-appointmentAriaLabel-group": "Group: {0}",
         "dxScheduler-appointmentAriaLabel-recurring": "Recurring appointment",
@@ -312,6 +313,8 @@
         "dxScheduler-confirmRecurrenceDeleteSeries": "Ștergeți serie",
         "dxScheduler-confirmRecurrenceEditOccurrence": "Editare rezervare",
         "dxScheduler-confirmRecurrenceDeleteOccurrence": "Ștergere rezervare",
+
+        "dxScheduler-addAppointment": "Add new appointment",
 
         "dxScheduler-noTimezoneTitle": "Fără fus orar",
         "dxScheduler-moreAppointments": "{0} mai mult",

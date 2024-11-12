@@ -250,6 +250,7 @@
         "dxPivotGrid-filterFieldArea": "拖动筛选字段到此处",
 
         "dxScheduler-ariaLabel": "Scheduler. {0} view",
+        
 
         "dxScheduler-appointmentAriaLabel-group": "Group: {0}",
         "dxScheduler-appointmentAriaLabel-recurring": "Recurring appointment",
@@ -312,6 +313,8 @@
         "dxScheduler-confirmRecurrenceDeleteSeries": "删除该系列的日程",
         "dxScheduler-confirmRecurrenceEditOccurrence": "修改日程",
         "dxScheduler-confirmRecurrenceDeleteOccurrence": "删除日程",
+
+        "dxScheduler-addAppointment": "Add new appointment",
 
         "dxScheduler-noTimezoneTitle": "没有时区",
         "dxScheduler-moreAppointments": "{0} 更多",

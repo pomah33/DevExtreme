@@ -250,6 +250,7 @@
         "dxPivotGrid-filterFieldArea": "Els camps de filtre de baixada aquí",
 
         "dxScheduler-ariaLabel": "Scheduler. {0} view",
+        
 
         "dxScheduler-appointmentAriaLabel-group": "Group: {0}",
         "dxScheduler-appointmentAriaLabel-recurring": "Recurring appointment",
@@ -312,6 +313,8 @@
         "dxScheduler-confirmRecurrenceDeleteSeries": "Eliminar la sèrie",
         "dxScheduler-confirmRecurrenceEditOccurrence": "Editar la cita",
         "dxScheduler-confirmRecurrenceDeleteOccurrence": "Suprimeix la cita",
+
+        "dxScheduler-addAppointment": "Add new appointment",
 
         "dxScheduler-noTimezoneTitle": "Sense zona horària",
         "dxScheduler-moreAppointments": "{0} Més",

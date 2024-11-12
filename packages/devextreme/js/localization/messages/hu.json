@@ -250,6 +250,7 @@
         "dxPivotGrid-filterFieldArea": "Húzza a szűrőmezőket ide",
 
         "dxScheduler-ariaLabel": "Scheduler. {0} view",
+        
 
         "dxScheduler-appointmentAriaLabel-group": "Group: {0}",
         "dxScheduler-appointmentAriaLabel-recurring": "Recurring appointment",
@@ -312,6 +313,8 @@
         "dxScheduler-confirmRecurrenceDeleteSeries": "Ismétlődés törlése",
         "dxScheduler-confirmRecurrenceEditOccurrence": "Alkalom szerkesztése",
         "dxScheduler-confirmRecurrenceDeleteOccurrence": "Alkalom törlése",
+
+        "dxScheduler-addAppointment": "Add new appointment",
 
         "dxScheduler-noTimezoneTitle": "Nincs időzóna",
         "dxScheduler-moreAppointments": "{0} több",

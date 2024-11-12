@@ -250,6 +250,7 @@
         "dxPivotGrid-filterFieldArea": "Numeskite filtrų laukus čia",
 
         "dxScheduler-ariaLabel": "Scheduler. {0} view",
+        
 
         "dxScheduler-appointmentAriaLabel-group": "Group: {0}",
         "dxScheduler-appointmentAriaLabel-recurring": "Recurring appointment",
@@ -312,6 +313,8 @@
         "dxScheduler-confirmRecurrenceDeleteSeries": "Ištrinti seriją",
         "dxScheduler-confirmRecurrenceEditOccurrence": "Redaguoti paskyrimą",
         "dxScheduler-confirmRecurrenceDeleteOccurrence": "Ištrinti paskyrimą",
+
+        "dxScheduler-addAppointment": "Add new appointment",
 
         "dxScheduler-noTimezoneTitle": "Nepasirinkta laiko zona",
         "dxScheduler-moreAppointments": "dar {0}",

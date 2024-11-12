@@ -250,6 +250,7 @@
         "dxPivotGrid-filterFieldArea": "Filterfelder hierher ziehen",
 
         "dxScheduler-ariaLabel": "Scheduler. {0} view",
+        
 
         "dxScheduler-appointmentAriaLabel-group": "Group: {0}",
         "dxScheduler-appointmentAriaLabel-recurring": "Recurring appointment",
@@ -312,6 +313,8 @@
         "dxScheduler-confirmRecurrenceDeleteSeries": "Serie löschen",
         "dxScheduler-confirmRecurrenceEditOccurrence": "Termin bearbeiten",
         "dxScheduler-confirmRecurrenceDeleteOccurrence": "Termin löschen",
+
+        "dxScheduler-addAppointment": "Add new appointment",
 
         "dxScheduler-noTimezoneTitle": "Keine Zeitzone",
         "dxScheduler-moreAppointments": "{0} weitere",
