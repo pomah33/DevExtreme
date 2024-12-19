@@ -2,7 +2,7 @@ import browser from '@js/core/utils/browser';
 import { isMaterialBased } from '@js/ui/themes';
 import type { WidgetOptions } from '@js/ui/widget/ui.widget';
 
-import * as columnsController from './columns_controller';
+import * as columnsController from './columns_controller/index';
 import type { GridCoreNew } from './widget';
 
 /**
