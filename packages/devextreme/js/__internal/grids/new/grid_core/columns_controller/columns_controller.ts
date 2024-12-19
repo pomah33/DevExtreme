@@ -3,9 +3,11 @@
 import formatHelper from '@js/format_helper';
 import type { Subscribable, SubsGets, SubsGetsUpd } from '@ts/core/reactive/index';
 import {
-  computed, interruptableComputed,
+  computed, iif, interruptableComputed,
 } from '@ts/core/reactive/index';
 
+import { DataController } from '../data_controller/index';
+import type { DataObject } from '../data_controller/types';
 import { OptionsController } from '../options_controller/options_controller';
 import type { ColumnProperties, ColumnSettings, PreNormalizedColumn } from './options';
 import type { Column, DataRow, VisibleColumn } from './types';
@@ -25,17 +27,34 @@ export class ColumnsController {
 
   public readonly allowColumnReordering: Subscribable<boolean>;
 
-  public static dependencies = [OptionsController] as const;
+  public static dependencies = [OptionsController, DataController] as const;
 
   constructor(
     private readonly options: OptionsController,
+    private readonly dataController: DataController,
   ) {
     this.columnsConfiguration = this.options.oneWay('columns');
+
+    const columnsFromDataSource = computed(
+      (items: unknown[]) => {
+        if (!items.length) {
+          return [];
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return Object.keys(items[0] as any);
+      },
+      [this.dataController.items],
+    );
 
     this.columnsSettings = interruptableComputed(
       (columnsConfiguration) => preNormalizeColumns(columnsConfiguration ?? []),
       [
-        this.columnsConfiguration,
+        iif(
+          computed((columnsConfiguration) => !!columnsConfiguration, [this.columnsConfiguration]),
+          this.columnsConfiguration,
+          columnsFromDataSource,
+        ),
       ],
     );
 
@@ -61,7 +80,7 @@ export class ColumnsController {
     this.allowColumnReordering = this.options.oneWay('allowColumnReordering');
   }
 
-  public createDataRow(data: unknown, columns: Column[]): DataRow {
+  public createDataRow(data: DataObject, columns: Column[]): DataRow {
     return {
       cells: columns.map((c) => {
         const displayValue = c.calculateDisplayValue(data);
@@ -82,7 +101,7 @@ export class ColumnsController {
           text,
         };
       }),
-      key: undefined,
+      key: this.dataController.getDataKey(data),
       data,
     };
   }

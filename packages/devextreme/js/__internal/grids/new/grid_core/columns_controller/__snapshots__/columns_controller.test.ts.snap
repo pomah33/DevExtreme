@@ -93,6 +93,9 @@ exports[`ColumnsController createDataRow should process data object to data row 
     "a": "my a value",
     "b": "my b value",
   },
-  "key": undefined,
+  "key": {
+    "a": "my a value",
+    "b": "my b value",
+  },
 }
 `;

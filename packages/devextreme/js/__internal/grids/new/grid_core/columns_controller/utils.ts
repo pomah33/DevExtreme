@@ -2,6 +2,7 @@ import { compileGetter } from '@js/core/utils/data';
 import { captionize } from '@js/core/utils/inflector';
 import { isDefined, isString } from '@js/core/utils/type';
 
+import type { DataObject } from '../data_controller/types';
 import type { ColumnProperties, ColumnSettings, PreNormalizedColumn } from './options';
 import { defaultColumnProperties, defaultColumnPropertiesByDataType } from './options';
 import type { Column } from './types';
@@ -23,7 +24,7 @@ function normalizeColumn(column: PreNormalizedColumn): Column {
   return {
     ...colWithDefaults,
     calculateDisplayValue: isString(colWithDefaults.calculateDisplayValue)
-      ? compileGetter(colWithDefaults.calculateDisplayValue) as (data: unknown) => string
+      ? compileGetter(colWithDefaults.calculateDisplayValue) as (data: DataObject) => string
       : colWithDefaults.calculateDisplayValue,
   };
 }

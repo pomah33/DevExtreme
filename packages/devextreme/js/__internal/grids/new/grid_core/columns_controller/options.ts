@@ -2,11 +2,12 @@
 import type { DataType } from '@js/common';
 import messageLocalization from '@js/localization/message';
 
+import type { DataObject } from '../data_controller/types';
 import type { WithRequired } from '../types';
 import type { Column } from './types';
 
 export type ColumnSettings = Partial<Omit<Column, 'calculateDisplayValue'> & {
-  calculateDisplayValue: string | ((this: Column, data: unknown) => unknown);
+  calculateDisplayValue: string | ((this: Column, data: DataObject) => unknown);
 }>;
 
 export type PreNormalizedColumn = WithRequired<ColumnSettings, 'name' | 'visibleIndex'>;
@@ -16,7 +17,6 @@ export type ColumnProperties = ColumnSettings | string;
 export const defaultColumnProperties = {
   dataType: 'string',
   calculateCellValue(data): unknown {
-    // @ts-expect-error
     return data[this.dataField!];
   },
   calculateDisplayValue(data): unknown {

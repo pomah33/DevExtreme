@@ -1,6 +1,8 @@
 import type { Format } from '@js/common';
 import type { ColumnBase } from '@js/common/grids';
 
+import type { DataObject, Key } from '../data_controller/types';
+
 type InheritedColumnProps =
   | 'alignment'
   | 'dataType'
@@ -16,9 +18,9 @@ export type Column = Pick<Required<ColumnBase>, InheritedColumnProps> & {
 
   name: string;
 
-  calculateCellValue: (this: Column, data: unknown) => unknown;
+  calculateCellValue: (this: Column, data: DataObject) => unknown;
 
-  calculateDisplayValue: (this: Column, data: unknown) => unknown;
+  calculateDisplayValue: (this: Column, data: DataObject) => unknown;
 
   format?: Format;
 
@@ -47,7 +49,7 @@ export interface Cell {
 export interface DataRow {
   cells: Cell[];
 
-  key: unknown;
+  key: Key;
 
-  data: unknown;
+  data: DataObject;
 }
